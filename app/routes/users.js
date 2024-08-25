@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import UserHandler from '../handler/userHandler.js';
+
 const router = express.Router();
-const UserHandler = require('../handler/userHandler.js');
 
 router.post('/register', UserHandler.registerUserHandler);
 
-module.exports = router
+export { router as userRoute }

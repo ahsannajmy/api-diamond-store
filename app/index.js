@@ -1,9 +1,10 @@
-const express = require('express');
-require('dotenv').config();
+import express from 'express';
+import dotenv from 'dotenv';
+import { userRoute } from './routes/users.js';
+
+dotenv.config();
 const app = express();
 const port = process.env.APP_PORT;
-const userRoute = require('./routes/users.js');
-
 
 // middleware
 app.use(express.json());

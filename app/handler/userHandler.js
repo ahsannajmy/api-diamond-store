@@ -1,25 +1,41 @@
-const pool = require('../database.js');
-const { nanoid } = require('nanoid');
+import pool from '../database.js';
+import { nanoid } from 'nanoid';
+import passwordHasher from '../utils/passwordHasher.js';
 
 const registerUserHandler = async (req, res) => {
   const { username, password, email, phone } = req.body;
   const id = nanoid(16);
+  
 
   try {
+    const hashPassword = await passwordHasher(password);
     const newUser = await pool.query(
-      `insert into users (id, username, password, )`
-    )
+      `INSERT INTO 
+      users(id, username, password, email, phone) 
+      values($1, $2, $3, $4, $5)
+      RETURNING *`,
+      [id, username, hashPassword, email, phone]
+    );
+    res.status(201).json({
+      status : "success",
+      message : "Data berhasil tersimpan",
+      user : {
+        id : id,
+        username : username
+      }
+    });
   } catch (err) {
-
+    console.log(err);
+    res.status(500).json({
+      status : "failed",
+      message : "INTERNAL SERVER ERROR"
+    })
   }
-  res.json({
-    status : "success",
-    message : "Data berhasil tersimpan",
-    user : { username : payload.username }
-  })
+
+
 };
 
 
-module.exports = {
+export default {
   registerUserHandler
 }
