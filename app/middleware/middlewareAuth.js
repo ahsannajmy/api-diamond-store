@@ -1,0 +1,1 @@
+// this file for handling auth for all the path that need authentication
