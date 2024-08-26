@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { userRoute } from './routes/users.js';
+import { categoryRoute } from './routes/category.js';
+import { serviceRoute } from './routes/service.js';
 
 dotenv.config();
 const app = express();
@@ -15,6 +17,8 @@ app.use((req,res,next) => {
 
 // group endpoint
 app.use('/users', userRoute);
+app.use('/categories', categoryRoute)
+app.use('/services', serviceRoute);
 
 app.listen(port, () => {
   console.log(`Server berjalan pada port ${port}`);
